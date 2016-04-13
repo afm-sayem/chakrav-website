@@ -1,0 +1,148 @@
+/* Shared
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+.button {
+  border-radius: 100px;
+}
+
+body {
+  text-align: center;
+}
+
+/* Sections
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+.section {
+  padding: 8rem 0 7rem;
+  text-align: center;
+}
+.section-heading,
+.section-description {
+  margin-bottom: 1.2rem;
+}
+
+/* Hero
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+.hero {
+  padding-top: 3rem;
+}
+
+#chartContainer {
+  margin: auto;
+  width: 600px;
+  height: 300px;
+
+}
+
+.chart-legend, .bar-legend, .line-legend, .pie-legend, .radar-legend, .polararea-legend, .doughnut-legend {
+  list-style-type: none;
+  margin-top: 5px;
+  text-align: center;
+  /* NOTE: Browsers automatically add 40px of padding-left to all lists, so we should offset that, otherwise the legend is off-center */
+  -webkit-padding-start:0; /* Webkit */
+  -moz-padding-start:0; /* Mozilla */
+  padding-left:0; /* IE (handles all cases, really, but we should also include the vendor-specific properties just to be safe) */
+}
+
+li {
+  display: inline-block;
+  white-space: nowrap;
+  position: relative;
+  margin-bottom: 4px;
+  border-radius: 5px;
+  padding: 2px 16px 2px 5px;
+  font-size: smaller;
+  cursor: default;
+}
+
+li > span {
+  display: inline-block;
+  left: 0;
+  top: 0;
+}
+
+.line-legend-icon {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 5px;
+}
+
+.line-legend-text {
+  padding-left: 20px;
+}
+
+#chart {
+    width: 600px;
+    height: 300px;
+
+}
+
+/* Values
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+.values {
+  padding-top: 7rem;
+}
+.value-multiplier {
+  margin-bottom: .5rem;
+  color: #11897C;
+}
+.value-heading {
+  margin-bottom: .3rem;
+}
+.value-description {
+  opacity: .8;
+  font-weight: 300;
+}
+
+/* Help
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+.contact {
+  padding-top: 2rem;
+  margin-bottom: 4rem;
+}
+
+.phone-icon {
+  width: 60px;
+  height: 60px;
+  position: absolute;
+  bottom: -2px;
+}
+
+.phone-text {
+  font-size: 4rem;
+  padding-left: 66px;
+}
+
+.get-help {
+  border-bottom: 1px solid #ddd;
+}
+
+/* Mobile first queries */
+
+/* Larger than mobile */
+@media (min-width: 400px) {}
+
+/* Larger than phablet */
+@media (min-width: 550px) {}
+  #chartContainer {
+    width: 400px;
+    height: 200px;
+  }
+
+/* Larger than tablet */
+@media (min-width: 750px) {
+  #chartContainer {
+    width: 600px;
+    height: 300px;
+  }
+}
+
+/* Larger than desktop */
+@media (min-width: 1000px) {
+  #chartContainer {
+    width: 600px;
+    height: 300px;
+  }
+}
+
+/* Larger than Desktop HD */
+@media (min-width: 1200px) {}

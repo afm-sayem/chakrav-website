@@ -1,0 +1,22 @@
+{
+  "name": "chakrav-landing",
+  "authors": [
+    "Sayem <afm.sayem@gmail.com>"
+  ],
+  "description": "landing page for chakrav",
+  "main": "index.html",
+  "moduleType": [],
+  "license": "Copyright Chakrav.com",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "Chart.js": "^2.0.0"
+  }
+}
