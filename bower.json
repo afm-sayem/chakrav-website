@@ -17,6 +17,9 @@
     "tests"
   ],
   "dependencies": {
-    "Chart.js": "^2.0.0"
+    "Chart.js": "^2.0.0",
+    "skeleton": "^2.0.4",
+    "normalize-css": "^4.1.1",
+    "sweetalert": "^1.1.3"
   }
 }

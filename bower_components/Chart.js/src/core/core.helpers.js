@@ -272,7 +272,7 @@ module.exports = function(Chart) {
 	helpers.uid = (function() {
 		var id = 0;
 		return function() {
-			return "chart-" + id++;
+			return id++;
 		};
 	})();
 	helpers.warn = function(str) {
@@ -830,13 +830,18 @@ module.exports = function(Chart) {
 		ctx.font = font;
 		var longest = 0;
 		helpers.each(arrayOfStrings, function(string) {
-			var textWidth = cache.data[string];
-			if (!textWidth) {
-				textWidth = cache.data[string] = ctx.measureText(string).width;
-				cache.garbageCollect.push(string);
+			// Undefined strings should not be measured
+			if (string !== undefined && string !== null) {
+				var textWidth = cache.data[string];
+				if (!textWidth) {
+					textWidth = cache.data[string] = ctx.measureText(string).width;
+					cache.garbageCollect.push(string);
+				}
+
+				if (textWidth > longest) {
+					longest = textWidth;
+				}
 			}
-			if (textWidth > longest)
-				longest = textWidth;
 		});
 
 		var gcLen = cache.garbageCollect.length / 2;
@@ -867,6 +872,12 @@ module.exports = function(Chart) {
 			console.log('Color.js not found!');
 			return c;
 		}
+
+		/* global CanvasGradient */
+		if (c instanceof CanvasGradient) {
+			return color(Chart.defaults.global.defaultColor);
+		}
+
 		return color(c);
 	};
 	helpers.addResizeListener = function(node, callback) {
@@ -926,9 +937,6 @@ module.exports = function(Chart) {
 		} else {
 			array.push(element);
 		}
-	};
-	helpers.isDatasetVisible = function(dataset) {
-		return !dataset.hidden;
 	};
 	helpers.callCallback = function(fn, args, _tArg) {
 		if (fn && typeof fn.call === 'function') {

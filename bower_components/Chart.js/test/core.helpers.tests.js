@@ -6,7 +6,7 @@ describe('Core helper tests', function() {
 		helpers = window.Chart.helpers;
 	});
 
-	it('Should iterate over an array and pass the extra data to that function', function() {
+	it('should iterate over an array and pass the extra data to that function', function() {
 		var testData = [0, 9, "abc"];
 		var scope = {}; // fake out the scope and ensure that 'this' is the correct thing
 
@@ -33,7 +33,7 @@ describe('Core helper tests', function() {
 		expect(iterated.slice().reverse()).toEqual(testData);
 	});
 
-	it('Should iterate over properties in an object', function() {
+	it('should iterate over properties in an object', function() {
 		var testData = {
 			myProp1: 'abc',
 			myProp2: 276,
@@ -59,7 +59,7 @@ describe('Core helper tests', function() {
 		}).not.toThrow();
 	});
 
-	it('Should clone an object', function() {
+	it('should clone an object', function() {
 		var testData = {
 			myProp1: 'abc',
 			myProp2: ['a', 'b'],
@@ -98,7 +98,7 @@ describe('Core helper tests', function() {
 		});
 	});
 
-	it('Should merge a normal config without scales', function() {
+	it('should merge a normal config without scales', function() {
 		var baseConfig = {
 			valueProp: 5,
 			arrayProp: [1, 2, 3, 4, 5, 6],
@@ -161,7 +161,7 @@ describe('Core helper tests', function() {
 		});
 	});
 
-	it('Should merge scale configs', function() {
+	it('should merge scale configs', function() {
 		var baseConfig = {
 			scales: {
 				prop1: {
@@ -217,6 +217,7 @@ describe('Core helper tests', function() {
 						color: "rgba(0, 0, 0, 0.1)",
 						drawOnChartArea: true,
 						drawTicks: true, // draw ticks extending towards the label
+						tickMarkLength: 10,
 						lineWidth: 1,
 						offsetGridLines: false,
 						display: true,
@@ -230,14 +231,14 @@ describe('Core helper tests', function() {
 					},
 					ticks: {
 						beginAtZero: false,
-						maxRotation: 90,
+						maxRotation: 50,
 						mirror: false,
 						padding: 10,
 						reverse: false,
 						display: true,
 						callback: merged.scales.yAxes[1].ticks.callback, // make it nicer, then check explicitly below
 						autoSkip: true,
-						autoSkipPadding: 20
+						autoSkipPadding: 0
 					},
 					type: 'linear'
 				}, {
@@ -246,7 +247,8 @@ describe('Core helper tests', function() {
 					gridLines: {
 						color: "rgba(0, 0, 0, 0.1)",
 						drawOnChartArea: true,
-						drawTicks: true, // draw ticks extending towards the label
+						drawTicks: true, // draw ticks extending towards the label,
+						tickMarkLength: 10,
 						lineWidth: 1,
 						offsetGridLines: false,
 						display: true,
@@ -260,14 +262,14 @@ describe('Core helper tests', function() {
 					},
 					ticks: {
 						beginAtZero: false,
-						maxRotation: 90,
+						maxRotation: 50,
 						mirror: false,
 						padding: 10,
 						reverse: false,
 						display: true,
 						callback: merged.scales.yAxes[2].ticks.callback, // make it nicer, then check explicitly below
 						autoSkip: true,
-						autoSkipPadding: 20
+						autoSkipPadding: 0
 					},
 					type: 'linear'
 				}]
@@ -301,7 +303,7 @@ describe('Core helper tests', function() {
 		expect(helpers.findPreviousWhere(data, callback, 0)).toBe(undefined);
 	});
 
-	it('Should get the correct sign', function() {
+	it('should get the correct sign', function() {
 		expect(helpers.sign(0)).toBe(0);
 		expect(helpers.sign(10)).toBe(1);
 		expect(helpers.sign(-5)).toBe(-1);
@@ -320,11 +322,12 @@ describe('Core helper tests', function() {
 		expect(helpers.almostEquals(1e30, 1e30 + Number.EPSILON, 2 * Number.EPSILON)).toBe(true);
 	});
 
-	it('Should generate ids', function() {
-		expect(helpers.uid()).toBe('chart-0');
-		expect(helpers.uid()).toBe('chart-1');
-		expect(helpers.uid()).toBe('chart-2');
-		expect(helpers.uid()).toBe('chart-3');
+	it('should generate integer ids', function() {
+		var uid = helpers.uid();
+		expect(uid).toEqual(jasmine.any(Number));
+		expect(helpers.uid()).toBe(uid + 1);
+		expect(helpers.uid()).toBe(uid + 2);
+		expect(helpers.uid()).toBe(uid + 3);
 	});
 
 	it('should detect a number', function() {
@@ -662,6 +665,23 @@ describe('Core helper tests', function() {
 		expect(helpers.getMaximumHeight(innerDiv)).toBe(150);
 
 		document.body.removeChild(div);
+	});
+
+	describe('Color helper', function() {
+		function isColorInstance(obj) {
+			return typeof obj === 'object' && obj.hasOwnProperty('values') && obj.values.hasOwnProperty('rgb');
+		}
+
+		it('should return a color when called with a color', function() {
+			expect(isColorInstance(helpers.color('rgb(1, 2, 3)'))).toBe(true);
+		});
+
+		it('should return a color when called with a CanvasGradient instance', function() {
+			var context = document.createElement('canvas').getContext('2d');
+			var gradient = context.createLinearGradient(0, 1, 2, 3);
+
+			expect(isColorInstance(helpers.color(gradient))).toBe(true);
+		});
 	});
 
 });

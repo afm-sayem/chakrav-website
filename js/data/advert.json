@@ -1,0 +1,16 @@
+{
+	"labels": ["KSRM", "MOH Steel", "BSRM"],
+	"datasets": [{
+		"data": [8, 16, 34],
+		"backgroundColor": [
+			"#FF6384",
+			"#36A2EB",
+			"#FFCE56"
+		],
+		"hoverBackgroundColor": [
+			"#FF6384",
+			"#36A2EB",
+			"#FFCE56"
+		]
+	}]
+}

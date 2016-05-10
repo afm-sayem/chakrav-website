@@ -2,10 +2,11 @@
 
 module.exports = function(Chart, moment) {
 
-  var helpers = Chart.helpers;
+  var helpers = Chart.helpers,
+    globalOpts = Chart.defaults.global;
 
-  Chart.defaults.global.elements.arc = {
-    backgroundColor: Chart.defaults.global.defaultColor,
+  globalOpts.elements.arc = {
+    backgroundColor: globalOpts.defaultColor,
     borderColor: "#fff",
     borderWidth: 2
   };
@@ -21,22 +22,32 @@ module.exports = function(Chart, moment) {
       }
     },
     inRange: function(chartX, chartY) {
-
       var vm = this._view;
 
       if (vm) {
         var pointRelativePosition = helpers.getAngleFromPoint(vm, {
-          x: chartX,
-          y: chartY
-        });
+            x: chartX,
+            y: chartY
+          }),
+          angle = pointRelativePosition.angle,
+          distance = pointRelativePosition.distance;
 
-        // Put into the range of (-PI/2, 3PI/2]
-        var startAngle = vm.startAngle < (-0.5 * Math.PI) ? vm.startAngle + (2.0 * Math.PI) : vm.startAngle > (1.5 * Math.PI) ? vm.startAngle - (2.0 * Math.PI) : vm.startAngle;
-        var endAngle = vm.endAngle < (-0.5 * Math.PI) ? vm.endAngle + (2.0 * Math.PI) : vm.endAngle > (1.5 * Math.PI) ? vm.endAngle - (2.0 * Math.PI) : vm.endAngle;
+        //Sanitise angle range
+        var startAngle = vm.startAngle;
+        var endAngle = vm.endAngle;
+        while (endAngle < startAngle) {
+          endAngle += 2.0 * Math.PI;
+        }
+        while (angle > endAngle) {
+          angle -= 2.0 * Math.PI;
+        }
+        while (angle < startAngle) {
+          angle += 2.0 * Math.PI;
+        }
 
         //Check if within the range of the open/close angle
-        var betweenAngles = (pointRelativePosition.angle >= startAngle && pointRelativePosition.angle <= endAngle),
-          withinRadius = (pointRelativePosition.distance >= vm.innerRadius && pointRelativePosition.distance <= vm.outerRadius);
+        var betweenAngles = (angle >= startAngle && angle <= endAngle),
+          withinRadius = (distance >= vm.innerRadius && distance <= vm.outerRadius);
 
         return (betweenAngles && withinRadius);
       } else {
@@ -55,14 +66,15 @@ module.exports = function(Chart, moment) {
     },
     draw: function() {
 
-      var ctx = this._chart.ctx;
-      var vm = this._view;
+      var ctx = this._chart.ctx,
+        vm = this._view,
+        sA = vm.startAngle,
+        eA = vm.endAngle;
 
       ctx.beginPath();
 
-      ctx.arc(vm.x, vm.y, vm.outerRadius, vm.startAngle, vm.endAngle);
-
-      ctx.arc(vm.x, vm.y, vm.innerRadius, vm.endAngle, vm.startAngle, true);
+      ctx.arc(vm.x, vm.y, vm.outerRadius, sA, eA);
+      ctx.arc(vm.x, vm.y, vm.innerRadius, eA, sA, true);
 
       ctx.closePath();
       ctx.strokeStyle = vm.borderColor;

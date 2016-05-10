@@ -15,14 +15,41 @@
     <link href='//fonts.googleapis.com/css?family=Raleway:400,300,600' rel='stylesheet' type='text/css'>
 
     <!-- CSS -->
-    <link rel="stylesheet" href="css/normalize.css">
-    <link rel="stylesheet" href="css/skeleton.css">
+    <link rel="stylesheet" href="bower_components/normalize-css/normalize.css">
+    <link rel="stylesheet" href="bower_components/sweetalert/dist/sweetalert.css">
+    <link rel="stylesheet" href="bower_components/skeleton/css/skeleton.css">
     <link rel="stylesheet" href="css/custom.css">
 
     <!-- Scripts -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="bower_components/Chart.js/dist/Chart.bundle.min.js" type="text/javascript"></script>
+    <script src="bower_components/sweetalert/dist/sweetalert.min.js" type="text/javascript"></script>
     <script src="js/landing.js"></script>
+    <script>
+      $(document).ready(function(){
+        $('.tab-wrapper ul li').click( function() {
+          $('.tab-wrapper ul li').removeClass('active');
+          $('.tab-wrapper .tab-container div').removeClass('active');
+          var className = $(this).attr('class');
+          $(this).addClass('active');
+          $('.tab-wrapper .tab-container').find('div.'+className).addClass('active');
+        });
+
+        document.querySelector('#trydemo').onclick = function(){
+          swal({
+            title: 'Demo Credentials',
+            text: 'username: test@test.com<br>password: test',
+            html: true,
+            allowOutsideClick: true,
+            confirmButtonText: 'Take Me to the Demo'
+          }, function () {
+						var win = window.open('http://app.chakrav.com', '_blank');
+						win.focus();
+					});
+        };
+      });
+
+    </script>
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="images/favicon.png">
@@ -37,11 +64,34 @@
         <h1 class="hero-heading">We watch, so you don't have to</h1>
         <p class="value-description">Realtime analytics for self and competitive data, setup alerts and access historical data</p>
         <div>
-          <a class="button button-primary" href="http://app.chakrav.com" target="blank">Try Demo</a>
+          <button id="trydemo" class="button button-primary">Try Demo</button>
         </div>
-        <div id="chartContainer">
-          <canvas id="chart"></canvas>
-          <p>New Audience Acquired</p>
+        <div class="tab-wrapper">
+          <ul class="tab-title">
+            <li class="tab1 active"><span>Social</span></li>
+            <li class="tab2"><span>Article Mentions</span></li>
+            <li class="tab3"><span>Advertisements</span></li>
+          </ul>
+          <div class="tab-container">
+            <div class="tab1 active">
+              <div class="chartContainer">
+                <canvas id="social"></canvas>
+                <p>New audience acquired on Facebook <small>October - April</small></p>
+              </div>
+            </div>
+            <div class="tab2">
+              <div class="chartContainer">
+                <canvas id="mentions"></canvas>
+                <p>Total news mentions <small>First Week of May</small></p>
+              </div>
+            </div>
+            <div class="tab3">
+              <div class="chartContainer">
+                <canvas id="advert"></canvas>
+                <p>Number of advertisements published <small>Month of December</small></p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
