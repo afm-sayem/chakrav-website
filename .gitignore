@@ -1,1 +1,9 @@
 .DS_Store
+bower_components/Chart.js/*
+!bower_components/Chart.js/dist/
+bower_components/normalize-css/*
+!bower_components/normalize-css/normalize.css
+bower_components/skeleton/*
+!bower_components/skeleton/css/
+bower_components/sweetalert/*
+!bower_components/sweetalert/dist/

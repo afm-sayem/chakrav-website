@@ -23,7 +23,7 @@ window.onload = function () {
     });
   });
 
-  $.getJSON('js/data/advert.json', function (json) {
+  $.getJSON('js/data/competitivedata.json', function (json) {
     var ctx = document.getElementById("advert").getContext("2d");
     var chart = new Chart(ctx, {
       type: 'pie',
